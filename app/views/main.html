@@ -1,7 +1,11 @@
 <div class="jumbotron">
-  <div class = 'containter' ng-repeat='todo in todos'>
-    <p>{{todo.recipeName}}</p>
-    <a href="http://www.yummly.com/recipe/{{todo.id}}">{{todo.rating}}</a>
+  <div class = 'containter'>
+    <!-- <h1><a href="http://www.yummly.com/recipe/{{todo.id}}">{{todo.recipeName}}</a></h1> -->
+
+
+    <h1  ng-repeat='todo in todos' >{{}}</h1>
+    {{someProperty}}
+    <button ng-click='someAction()'>FEED ME</button>
   </div>
 
 </div>
