@@ -7,8 +7,9 @@ h1{
   text-align: center;
 }
 
-.jumbotron {
-  background-color: white;
+.btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .browsehappy {
@@ -59,7 +60,7 @@ body {
 /* Main marketing message and sign up button */
 .jumbotron {
   text-align: center;
-  border-bottom: 1px solid #e5e5e5;
+  background-color: white;
 
   .btn {
     font-size: 21px;

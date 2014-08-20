@@ -9,16 +9,16 @@ function recipeIndexArr (num) {
 	return recipeIndexes;
 }
 
-//returns a random number from 0 - 2000 to get varied results
+//returns a random number from 0 - 5000 to get varied results
 function randomStart () {
-	return Math.floor(Math.random() * (2000) );
+	return Math.floor(Math.random() * (5000) );
 }
 
 //buils the GET request string
 function buildURL() {
-	var random = randomStart(),
-			mainDishes = encodeURIComponent('Main Dishes'),
-			salads = encodeURIComponent('Salads');
+	var random 			= randomStart(),
+			mainDishes 	= encodeURIComponent('Main Dishes'),
+			salads 			= encodeURIComponent('Salads');
 	return 'http://api.yummly.com/v1/api/recipes?_app_id=09981ac4&_app_key=5f7f4b7a4eb4ebf0bcf4f3f0e5e47e2f&allowedCourse[]=course^course-' + mainDishes + '&allowedCourse[]=course^course-' + salads + '&maxResult=80&start='+ random +'&callback=JSON_CALLBACK';
 }
 /**
@@ -34,26 +34,33 @@ angular.module('someAppApp')
 
   	//declare some variables
   	$scope.someProperty = '';
-  	$scope.htmlAttr = '';
-  	var recipes = [],
-  			recipeIndexes = recipeIndexArr(80),
-			  counter = 0;
+  	$scope.htmlAttr 		= '';
+  	var recipes 				= [],
+  			recipeIndexes 	= recipeIndexArr(80),
+			  counter 				= 0;
 
   	console.log('counter: ' + counter);
-  	console.log(recipeIndexes);
 
   	//function to make a call to the yummly api. once the promise is complete, then:
   	//recipes = all the recipes
   	// scope.someProperty = first recipe from the response
   	$scope.apiCall = function (){
-			var promise = $http.jsonp(buildURL());
-			promise.then(function(response) {
-			  console.log(response.data);
-				recipes = response.data.matches;
-				console.log(recipes);
-				$scope.someProperty = response.data.matches[0];
-				$scope.htmlAttr = response.data.attribution.html;
-			});
+			var promise = $http.jsonp(buildURL())
+				.catch(function(response){
+					if (status === 409){
+						$scope.someProperty = 'It looks like the API call limit has been reached. Yummly only allows for 500 free calls a day.. you\'l have to try again tomorrow';
+					}
+				})
+
+				.then(function(response) {
+				  console.log(response.data);
+					recipes = response.data.matches;
+					console.log(recipes);
+					$scope.someProperty = response.data.matches[0];
+					$scope.htmlAttr = response.data.attribution.html;
+				});
+			console.log(promise);
+
   	};
 
   	//this is the button click
@@ -79,7 +86,6 @@ angular.module('someAppApp')
   			var randomIndex = recipeIndexes.splice(Math.random()*recipeIndexes.length, 1)[0];
   			$scope.someProperty = recipes[randomIndex];
   			counter += 1;
-  			console.log(recipes);
   		}
 
   		console.log($scope.someProperty);
