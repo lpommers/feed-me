@@ -32,6 +32,7 @@ function buildURL() {
 angular.module('someAppApp')
   .controller('MainCtrl', ['$scope','$http', function ($scope, $http) {
   	$scope.someProperty = '';
+  	$scope.htmlAttr = '';
   	var recipes = [],
   			recipeIndexes = recipeIndexArr(60),
 			  counter = 0;
@@ -47,6 +48,7 @@ angular.module('someAppApp')
 					recipes = response.data.matches;
 					console.log(recipes);
 					$scope.someProperty = response.data.matches[0];
+					$scope.htmlAttr = response.data.attribution.html;
 				});
   	};
 
