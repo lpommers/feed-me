@@ -1,0 +1,1 @@
+Small app to help give people inspiration on what to cook for dinner. Uses the Yummly API.
