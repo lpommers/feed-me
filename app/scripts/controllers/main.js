@@ -14,7 +14,8 @@ function randomStart () {
 	return Math.floor(Math.random() * (5000) );
 }
 
-//buils the GET request string
+//builds the GET request string
+//bool == var related to whether veggie option has been ticked
 function buildURL(bool) {
 	var apiString		= 'http://api.yummly.com/v1/api/recipes?_app_id=09981ac4&_app_key=5f7f4b7a4eb4ebf0bcf4f3f0e5e47e2f',
 			mainDishes 	= '&allowedCourse[]=course^course-' + encodeURIComponent('Main Dishes'),
@@ -23,11 +24,13 @@ function buildURL(bool) {
 			startPoint 			= '&maxResult=90&start=' + randomStart(),
 			responseData = '&callback=' + encodeURIComponent('JSON_CALLBACK');
 
-	console.log(startPoint);
+	//console.log(startPoint);
 
+	//if veggie
 	if (bool === true) {
 		return apiString + mainDishes + salads + vegetarian + startPoint + responseData;
 	}
+	//if not veggie
 	else {
 		return apiString + mainDishes + salads + startPoint + responseData;
 	}
@@ -64,7 +67,7 @@ angular.module('someAppApp')
 					}
 				})
 				.then(function(response) {
-				  console.log(response.data);
+				  //console.log(response.data);
 					recipes = response.data.matches;
 					//console.log(recipes);
 					$scope.someProperty = response.data.matches[0];
@@ -75,20 +78,20 @@ angular.module('someAppApp')
 
   	//this is the button click
   	$scope.someAction = function() {
-  		console.log('counter: ' + counter);
+  		//console.log('counter: ' + counter);
 			// console.log(recipeIndexes);
 
 			//if recipes array is empty, it means the api has never called so, so we call it once. And update the counter
   		if (recipes.length === 0 || checkbox.checked !== veggieOption) {
   			veggieOption = checkbox.checked;
 				$scope.apiCall(checkbox.checked);
-				counter += 1;
+				counter = 1;
   		}
-  		//if the counter is at 78 then we've shown the user almost all the recipes from our response and it's time to update the recipes by making another api call and refreshing the recipe index array and reseting our counter
+  		//if the counter is at 88 then we've shown the user almost all the recipes from our response and it's time to update the recipes by making another api call and refreshing the recipe index array and reseting our counter
 			else if (counter === 88) {
 				recipeIndexes = recipeIndexArr(90);
-			 	$scope.apiCall();
-				counter = 0;
+			 	$scope.apiCall(checkbox.checked);
+				counter = 1;
   		}
   		//this means we don't need to call the api and just need to send the user a new recipe
   		else {
