@@ -18,8 +18,17 @@ function randomStart () {
 function buildURL() {
 	var random 			= randomStart(),
 			mainDishes 	= encodeURIComponent('Main Dishes'),
-			salads 			= encodeURIComponent('Salads');
-	return 'http://api.yummly.com/v1/api/recipes?_app_id=09981ac4&_app_key=5f7f4b7a4eb4ebf0bcf4f3f0e5e47e2f&allowedCourse[]=course^course-' + mainDishes + '&allowedCourse[]=course^course-' + salads + '&maxResult=90&start='+ random +'&callback=JSON_CALLBACK';
+			salads 			= encodeURIComponent('Salads'),
+			vegetarian  = encodeURIComponent('387^Lacto-ovo vegetarian'),
+			checkbox 		= document.getElementById('vegetarian');
+			console.log(checkbox.checked);
+
+	if (checkbox.checked == true) {
+		return 'http://api.yummly.com/v1/api/recipes?_app_id=09981ac4&_app_key=5f7f4b7a4eb4ebf0bcf4f3f0e5e47e2f&allowedCourse[]=course^course-' + mainDishes + '&allowedDiet[]=' + vegetarian + '&allowedCourse[]=course^course-' + salads + '&maxResult=90&start='+ random +'&callback=JSON_CALLBACK';
+	} else {
+		return 'http://api.yummly.com/v1/api/recipes?_app_id=09981ac4&_app_key=5f7f4b7a4eb4ebf0bcf4f3f0e5e47e2f&allowedCourse[]=course^course-' + mainDishes + '&allowedCourse[]=course^course-' + salads + '&maxResult=90&start='+ random +'&callback=JSON_CALLBACK';
+	}
+
 }
 /**
  * @ngdoc function
@@ -50,7 +59,7 @@ angular.module('someAppApp')
 					}
 				})
 				.then(function(response) {
-				  //console.log(response.data);
+				  console.log(response.data);
 					recipes = response.data.matches;
 					//console.log(recipes);
 					$scope.someProperty = response.data.matches[0];
