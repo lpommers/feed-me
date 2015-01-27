@@ -67,19 +67,14 @@ angular.module('someAppApp')
 					}
 				})
 				.then(function(response) {
-				  //console.log(response.data);
 					recipes = response.data.matches;
-					//console.log(recipes);
 					$scope.someProperty = response.data.matches[0];
 					$scope.htmlAttr = response.data.attribution.html;
 				});
-			//console.log(promise);
   	};
 
   	//this is the button click
   	$scope.someAction = function() {
-  		//console.log('counter: ' + counter);
-			// console.log(recipeIndexes);
 
 			//if recipes array is empty, it means the api has never called so, so we call it once. And update the counter
   		if (recipes.length === 0 || checkbox.checked !== veggieOption) {
@@ -101,6 +96,7 @@ angular.module('someAppApp')
   			counter += 1;
   		}
 
-  		//console.log($scope.someProperty);
   	};
 }]);
+
+
